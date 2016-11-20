@@ -16,7 +16,7 @@ MMUR5::MMUR5()
 	//Points and Directions of each joint (Considering the initial position of the UR5 robot)
 	this->p1 << this->a, 0, this->l1;
 	this->p2 << this->a, 0, this->l1;
-	this->p3 << this->a -this->l2, 0, this->l1; 
+	this->p3 << this->a - this->l2, 0, this->l1; 
 	this->p4 << this->a - this->l2 - this->l3, 0, this->l1;
 	this->p5 << this->a - this->l2 - this->l3, -this->l4, this->l1;
 	this->p6 << this->a - this->l2 - this->l3, -this->l4, this->l1 - this->l5;
@@ -48,6 +48,8 @@ MMUR5::MMUR5()
 	this->dqL7 = DualQuat(Quat(0, this->d7), Quat(0, this->m7));
 	this->dqL8 = DualQuat(Quat(0, this->d8), Quat(0, this->m8));
 
+	//Initialize the values of the Transformaion matrix
+	this->T0e = Eigen::Matrix4d::Zero();
 	this->T0e(3, 3) = 1.0;
 }
 
@@ -60,9 +62,9 @@ Eigen::Matrix4d MMUR5::forwardKin(Eigen::VectorXd q)
 	//Create the dual quaternion to represent each joint axis
 
 	//*********** Mobile platform and prismatic joint ***********//
-	Eigen::Vector3d t(q(0), q(1), q(2));	//tx ty tz
+	Eigen::Vector3d t(q(0), q(1), q(3));	//tx ty tz
 	//Translation and rotation quaternions
-	Quat qrot = Quat::rotQuat(q(3),Eigen::Vector3d(0,0,1));
+	Quat qrot = Quat::rotQuat(q(2),Eigen::Vector3d(0,0,1));
 	Quat qt(0,t);
 
 	//Composite operator of rotation and translation of the mobile platform
@@ -76,8 +78,6 @@ Eigen::Matrix4d MMUR5::forwardKin(Eigen::VectorXd q)
 	this->dq5 = DualQuat(Quat(cos(q(8)*0.5), sin(q(8)*0.5)*this->d5), Quat(0, sin(q(8)*0.5)*this->m5));
 	this->dq6 = DualQuat(Quat(cos(q(9)*0.5), sin(q(9)*0.5)*this->d6), Quat(0, sin(q(9)*0.5)*this->m6));
 
-	cout << this->dq4 << endl;
-
 	//******************** Rigid Transfomation ******************//
 	DualQuat Q = this->dqmp*this->dq1*this->dq2*this->dq3*this->dq4*this->dq5*this->dq6;
 	DualQuat Qc = Q.conj();
@@ -85,9 +85,6 @@ Eigen::Matrix4d MMUR5::forwardKin(Eigen::VectorXd q)
 	//Get the new positions and orientation of L7 and L8
 	DualQuat newQL7 = Q*dqL7*Qc;
 	DualQuat newQL8 = Q*dqL8*Qc;
-
-	cout << newQL7 << endl;
-	cout << newQL8 << endl;
 
 	//Get the position from intersection of L7 and L8 and the directions from the vectors
 	Eigen::Vector3d pos = DualQuat::linesIntPlucker(newQL7, newQL8); //Position

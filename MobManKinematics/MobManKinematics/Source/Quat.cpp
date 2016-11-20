@@ -56,7 +56,7 @@ Quat Quat::conj()
 
 Quat Quat::rotQuat(double angle, Eigen::Vector3d axis)
 {
-	return Quat(cos(angle / 2.0), sin(angle / 2.0)*axis);
+	return Quat(cos(angle * 0.5), sin(angle * 0.5)*axis);
 }
 
 double Quat::getS()
