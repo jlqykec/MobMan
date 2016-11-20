@@ -14,12 +14,12 @@ MMUR5::MMUR5()
 	this->b = 0.06;
 
 	//Points and Directions of each joint (Considering the initial position of the UR5 robot)
-	this->p1 << this->a, 0, this->l1;
-	this->p2 << this->a, 0, this->l1;
-	this->p3 << this->a - this->l2, 0, this->l1; 
-	this->p4 << this->a - this->l2 - this->l3, 0, this->l1;
-	this->p5 << this->a - this->l2 - this->l3, -this->l4, this->l1;
-	this->p6 << this->a - this->l2 - this->l3, -this->l4, this->l1 - this->l5;
+	this->p1 << this->a, 0, this->l1 + this->b;
+	this->p2 << this->a, 0, this->l1 + this->b;
+	this->p3 << this->a - this->l2, 0, this->l1 + this->b;
+	this->p4 << this->a - this->l2 - this->l3, 0, this->l1 + this->b;
+	this->p5 << this->a - this->l2 - this->l3, -this->l4, this->l1 + this->b;
+	this->p6 << this->a - this->l2 - this->l3, -this->l4, this->l1 - this->l5 + this->b;
 	this->d1 << 0, 0, 1;
 	this->d2 << 0, -1, 0;
 	this->d3 << 0, -1, 0;

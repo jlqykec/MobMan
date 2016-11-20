@@ -29,16 +29,16 @@ int main()
 
 	//Values of the generalized coordinates
 	double tx, ty, tz, phi, q1, q2, q3, q4, q5, q6;
-	tx = 10.0;
-	ty = 20.0;
-	tz = 0.2;
-	phi = 45.0 * M_PI / 180.0;
-	q1 = 30.0 * M_PI / 180.0;
-	q2 = -20.0 * M_PI / 180.0;
-	q3 = 45.0 * M_PI / 180.0;
-	q4 = -15.0 * M_PI / 180.0;
-	q5 = 8.0 * M_PI / 180.0;
-	q6 = 10.0 * M_PI / 180.0;
+	tx = 0.0;
+	ty = 0.0;
+	tz = 0.0;
+	phi = 0.0 * M_PI / 180.0;
+	q1 = 0.0 * M_PI / 180.0;
+	q2 = 0.0 * M_PI / 180.0;
+	q3 = 0.0 * M_PI / 180.0;
+	q4 = 0.0 * M_PI / 180.0;
+	q5 = 0.0 * M_PI / 180.0;
+	q6 = 0.0 * M_PI / 180.0;
 
 	//A vector to store the values before sending them to the algorithm
 	VectorXd q(10);
