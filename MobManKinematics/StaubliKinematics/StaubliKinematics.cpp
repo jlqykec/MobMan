@@ -1,4 +1,4 @@
-// TestForwardKinematics.cpp : Defines the entry point for the console application.
+// StaubliKinematics.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
@@ -7,7 +7,7 @@
 #define _USE_MATH_DEFINES // for the PI constant
 #include <Eigen/Dense>
 #include <iostream>
-#include "MMUR5.h"
+#include "Staubli.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,25 +24,21 @@ int main()
 	LARGE_INTEGER end;
 	double interval;
 
-	//Mobile manipulator object
-	MMUR5 robot;
+	//Staubli Robot object
+	Staubli robot;
 
 	//Values of the generalized coordinates
-	double tx, ty, tz, phi, q1, q2, q3, q4, q5, q6;
-	tx = 0.0;
-	ty = 0.0;
-	tz = 0.0;
-	phi = 0.0 * M_PI / 180.0;
-	q1 = 0.0 * M_PI / 180.0;
-	q2 = 0.0 * M_PI / 180.0;
-	q3 = 0.0 * M_PI / 180.0;
-	q4 = 0.0 * M_PI / 180.0;
-	q5 = 0.0 * M_PI / 180.0;
-	q6 = 0.0 * M_PI / 180.0;
+	double q1, q2, q3, q4, q5, q6;
+	q1 = 45.0 * M_PI / 180.0;
+	q2 = 30.0 * M_PI / 180.0;
+	q3 = 62.0 * M_PI / 180.0;
+	q4 = -41.0 * M_PI / 180.0;
+	q5 = -30.0 * M_PI / 180.0;
+	q6 = 18.0 * M_PI / 180.0;
 
-	//A vector to store the values before sending them to the algorithm
-	VectorXd q(10);
-	q << tx, ty, phi, tz, q1, q2, q3, q4, q5, q6;
+	//A vector to store the joint angles before sending them to the algorithm
+	VectorXd q(6);
+	q << q1, q2, q3, q4, q5, q6;
 
 	//A Matrix to store the Transformation matrix of the forward kinematics
 	Matrix4d T0e;
@@ -58,9 +54,8 @@ int main()
 	// Show the execution time
 	cout << "Execution time: " << interval << "s" << endl;
 	//Show the output of the forward kinematics
-	cout << T0e << endl;	
+	cout << T0e << endl;
 	system("pause");
 	return 0;
 }
-
 

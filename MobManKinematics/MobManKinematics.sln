@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MobManKinematics", "MobManKinematics\MobManKinematics.vcxproj", "{B36ADEA4-7833-4E12-8F02-BEEA5418E6E8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StaubliKinematics", "StaubliKinematics\StaubliKinematics.vcxproj", "{DBBF5FC9-9BA0-44C0-8DFC-1A0A1E8CBC4D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{B36ADEA4-7833-4E12-8F02-BEEA5418E6E8}.Release|x64.Build.0 = Release|x64
 		{B36ADEA4-7833-4E12-8F02-BEEA5418E6E8}.Release|x86.ActiveCfg = Release|Win32
 		{B36ADEA4-7833-4E12-8F02-BEEA5418E6E8}.Release|x86.Build.0 = Release|Win32
+		{DBBF5FC9-9BA0-44C0-8DFC-1A0A1E8CBC4D}.Debug|x64.ActiveCfg = Debug|x64
+		{DBBF5FC9-9BA0-44C0-8DFC-1A0A1E8CBC4D}.Debug|x64.Build.0 = Debug|x64
+		{DBBF5FC9-9BA0-44C0-8DFC-1A0A1E8CBC4D}.Debug|x86.ActiveCfg = Debug|Win32
+		{DBBF5FC9-9BA0-44C0-8DFC-1A0A1E8CBC4D}.Debug|x86.Build.0 = Debug|Win32
+		{DBBF5FC9-9BA0-44C0-8DFC-1A0A1E8CBC4D}.Release|x64.ActiveCfg = Release|x64
+		{DBBF5FC9-9BA0-44C0-8DFC-1A0A1E8CBC4D}.Release|x64.Build.0 = Release|x64
+		{DBBF5FC9-9BA0-44C0-8DFC-1A0A1E8CBC4D}.Release|x86.ActiveCfg = Release|Win32
+		{DBBF5FC9-9BA0-44C0-8DFC-1A0A1E8CBC4D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
