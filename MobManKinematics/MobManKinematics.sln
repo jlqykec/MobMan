@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MobManKinematics", "MobManK
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StaubliKinematics", "StaubliKinematics\StaubliKinematics.vcxproj", "{DBBF5FC9-9BA0-44C0-8DFC-1A0A1E8CBC4D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StaubliNoEigen", "StaubliNoEigen\StaubliNoEigen.vcxproj", "{DC5B1166-FF3E-4288-B754-E945B534EF82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{DBBF5FC9-9BA0-44C0-8DFC-1A0A1E8CBC4D}.Release|x64.Build.0 = Release|x64
 		{DBBF5FC9-9BA0-44C0-8DFC-1A0A1E8CBC4D}.Release|x86.ActiveCfg = Release|Win32
 		{DBBF5FC9-9BA0-44C0-8DFC-1A0A1E8CBC4D}.Release|x86.Build.0 = Release|Win32
+		{DC5B1166-FF3E-4288-B754-E945B534EF82}.Debug|x64.ActiveCfg = Debug|x64
+		{DC5B1166-FF3E-4288-B754-E945B534EF82}.Debug|x64.Build.0 = Debug|x64
+		{DC5B1166-FF3E-4288-B754-E945B534EF82}.Debug|x86.ActiveCfg = Debug|Win32
+		{DC5B1166-FF3E-4288-B754-E945B534EF82}.Debug|x86.Build.0 = Debug|Win32
+		{DC5B1166-FF3E-4288-B754-E945B534EF82}.Release|x64.ActiveCfg = Release|x64
+		{DC5B1166-FF3E-4288-B754-E945B534EF82}.Release|x64.Build.0 = Release|x64
+		{DC5B1166-FF3E-4288-B754-E945B534EF82}.Release|x86.ActiveCfg = Release|Win32
+		{DC5B1166-FF3E-4288-B754-E945B534EF82}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

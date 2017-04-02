@@ -1,4 +1,4 @@
-// StaubliKinematics.cpp : Defines the entry point for the console application.
+// StaubliNoEigen.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
@@ -45,18 +45,19 @@ int main()
 	Matrix4d T0e;
 
 	double acc = 0.0;
-	int n = 10000;
+	int n = 1000;
+
+	//For measuring the execution time
+	QueryPerformanceFrequency(&freq);
 
 	for (int i = 0; i < n; i++)
-	{
-		//For measuring the execution time
-		QueryPerformanceFrequency(&freq);
+	{		
 		QueryPerformanceCounter(&start);
 		//Calculate the forward kinematics
 		T0e = robot.forwardKin(q);
 		QueryPerformanceCounter(&end);
 		//Calculate the execution time in seconds
-		interval = (double)(end.QuadPart - start.QuadPart) / freq.QuadPart * 1000.0;
+		interval = (double)(end.QuadPart - start.QuadPart) / freq.QuadPart * 1000;
 		acc += interval;
 		// Show the execution time
 		/*cout << "Execution time: " << interval*1000.0 << "ms" << endl;
@@ -64,9 +65,10 @@ int main()
 		cout << T0e << endl;*/
 	}
 
-	cout << "Execution time: " << acc / n << "ms" << endl;
+	cout << "Execution time: " << acc/n << "ms" << endl;
 	//Show the output of the forward kinematics
 	cout << T0e << endl;
+
 
 	system("pause");
 	return 0;
