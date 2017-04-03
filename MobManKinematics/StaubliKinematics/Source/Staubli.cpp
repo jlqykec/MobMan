@@ -1,5 +1,10 @@
 #include "Staubli.h"
 
+#define _USE_MATH_DEFINES // for the PI constant
+#include <math.h>
+
+using namespace Eigen;
+
 Staubli::Staubli()
 {
 	//Lenghts of the links
@@ -52,6 +57,8 @@ Staubli::Staubli()
 	this->T0e(3, 3) = 1.0;
 }
 
+
+
 Eigen::Matrix4d Staubli::forwardKin(Eigen::VectorXd q)
 {
 	if (q.size() != 6) //The size of the 
@@ -76,13 +83,12 @@ Eigen::Matrix4d Staubli::forwardKin(Eigen::VectorXd q)
 	DualQuat newQL6 = Q*dqL6*Qc;
 	DualQuat newQL7 = Q*dqL7*Qc;
 	
-
 	//Get the position from intersection of L6 and L7 and the directions from the vectors
 	Eigen::Vector3d pos = DualQuat::linesIntPlucker(newQL6, newQL7); //Position
 	Eigen::Vector3d approach = newQL6.getPrim().getV(); //Approach direction
 	Eigen::Vector3d orientation = newQL7.getPrim().getV();	//Orientation direction
 	Eigen::Vector3d normal = orientation.cross(approach);
-	
+		
 	//Store the vectors in the T0e matrix
 	this->T0e.col(0).head(3) = normal;
 	this->T0e.col(1).head(3) = orientation;
@@ -94,5 +100,50 @@ Eigen::Matrix4d Staubli::forwardKin(Eigen::VectorXd q)
 
 Eigen::VectorXd Staubli::inverseKin(Eigen::Matrix4d T)
 {
+	//Extract the desried position, approaching direction and normal direction
+	Vector3d Ped = T0e.col(3).head(3);
+	Vector3d Ad = T0e.col(2).head(3);
+	Vector3d Nd = T0e.col(0).head(3);
+
+	//Create a matrix to store the solutions, the columns represent the joint values
+	this->solutions = Eigen::MatrixXd::Zero(8,6);
+	int solFlags[6] = { 1,1,1,1,1,1 }; //Initialize with all solutions valid
+	
+	// ************Step 1: Find theta 1 using the geometry of the robot**********//
+	//Calculate the position of the wrist
+	double th1[2];
+	Vector3d Pwd = Ped - l5z * Ad;
+
+	//Use equations (44), (45) and (46)
+	double offset = 0; //There is not offset for the Staubli RX160 robot
+	double alpha1 = atan2(Pwd(1), Pwd(0));
+	double alpha2 = atan2(offset, sqrt(pow(Pwd(0),2)+pow(Pwd(1),2)-pow(offset,2)));
+	
+	th1[0] = alpha1 + alpha2;
+	th1[1] = alpha1 - alpha2 + M_PI;
+
+	//Copy the solutions to the solution matrix
+	solutions.col(1) << th1[0], th1[0], th1[0], th1[0], th1[1], th1[1], th1[1], th1[1];
+	// **************************************************************************//
+
+	//*******Step 2: Find theta 2 and theta 3 using the position of joint 5******//
+	//               from initial to 5_1 and subproblem2pa**********//
+
+	//Rotation operators of theta 1
+	DualQuat q1[2];
+	//q1[0] = DualQuat(Quat(cos(th1[0])));
+	
+
+	//Copy the solutions to the solution matrix
+	solutions.col(1) << th1[0], th1[0], th1[0], th1[0], th1[1], th1[1], th1[1], th1[1];
+	// **************************************************************************//
+
+
+
+
+
+	cout << solutions * 180 / M_PI << endl;
+
+
 	return Eigen::VectorXd();
 }

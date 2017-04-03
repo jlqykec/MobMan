@@ -29,11 +29,11 @@ int main()
 
 	//Values of the generalized coordinates
 	double q1, q2, q3, q4, q5, q6;
-	q1 = 45.0 * M_PI / 180.0;
-	q2 = 30.0 * M_PI / 180.0;
-	q3 = 62.0 * M_PI / 180.0;
-	q4 = -41.0 * M_PI / 180.0;
-	q5 = -30.0 * M_PI / 180.0;
+	q1 = 90.0 * M_PI / 180.0;
+	q2 = 45.0 * M_PI / 180.0;
+	q3 = -45.0 * M_PI / 180.0;
+	q4 = 0.0 * M_PI / 180.0;
+	q5 = 0.0 * M_PI / 180.0;
 
 	q6 = 18.0 * M_PI / 180.0;
 
@@ -45,27 +45,20 @@ int main()
 	Matrix4d T0e;
 
 	double acc = 0.0;
-	int n = 1000;
+	int n = 5000;
 
 	//For measuring the execution time
 	QueryPerformanceFrequency(&freq);
-
+	QueryPerformanceCounter(&start);
 	for (int i = 0; i < n; i++)
 	{		
-		QueryPerformanceCounter(&start);
 		//Calculate the forward kinematics
 		T0e = robot.forwardKin(q);
-		QueryPerformanceCounter(&end);
-		//Calculate the execution time in seconds
-		interval = (double)(end.QuadPart - start.QuadPart) / freq.QuadPart * 1000;
-		acc += interval;
-		// Show the execution time
-		/*cout << "Execution time: " << interval*1000.0 << "ms" << endl;
-		//Show the output of the forward kinematics
-		cout << T0e << endl;*/
 	}
-
-	cout << "Execution time: " << acc/n << "ms" << endl;
+	QueryPerformanceCounter(&end);
+	//Calculate the execution time in seconds
+	interval = (double)(end.QuadPart - start.QuadPart) / freq.QuadPart * 1000;
+	cout << "Execution time: " << interval/n << "ms" << endl;
 	//Show the output of the forward kinematics
 	cout << T0e << endl;
 

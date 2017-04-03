@@ -10,7 +10,6 @@ Staubli::Staubli()
 	this->l4z = 0.625;
 	this->l5z = 0.11;
 
-
 	//Points and Directions of each joint
 	this->p1 << 0, 0, this->l0z;
 	this->p2 << this->l1x, -1 * this->l1y, this->l0z;
@@ -43,9 +42,9 @@ Staubli::Staubli()
 	this->m8 = this->p8.cross(d8);
 
 	//Dual quaternion representation of the axis that represent the tool in the initial position
-	this->dqL6 = DualQuat(Quat(0, this->d6), Quat(0, this->m6));
-	this->dqL7 = DualQuat(Quat(0, this->d7), Quat(0, this->m7));
-	this->dqL8 = DualQuat(Quat(0, this->d8), Quat(0, this->m8));
+	this->dqL6 = DualQuat(0, this->d6, 0, this->m6);
+	this->dqL7 = DualQuat(0, this->d7, 0, this->m7);
+	this->dqL8 = DualQuat(0, this->d8, 0, this->m8);
 
 	//Initialize the values of the Transformaion matrix
 	this->T0e = Eigen::Matrix4d::Zero();
@@ -84,9 +83,9 @@ Eigen::Matrix4d Staubli::forwardKin(Eigen::VectorXd q)
 	Eigen::Vector3d normal = orientation.cross(approach);*/
 	
 	//Store the vectors in the T0e matrix
-	this->T0e.col(0).head(3) = newQL7.getPrim().getV().cross(newQL6.getPrim().getV());
-	this->T0e.col(1).head(3) = newQL7.getPrim().getV();	//Orientation direction
-	this->T0e.col(2).head(3) = newQL6.getPrim().getV(); //Approach direction
+	this->T0e.col(0).head(3) = newQL7.getPrim().vec().cross(newQL6.getPrim().vec());
+	this->T0e.col(1).head(3) = newQL7.getPrim().vec();	//Orientation direction
+	this->T0e.col(2).head(3) = newQL6.getPrim().vec(); //Approach direction
 	this->T0e.col(3).head(3) = DualQuat::linesIntPlucker(newQL6, newQL7); //Position	
 
 	return this->T0e;

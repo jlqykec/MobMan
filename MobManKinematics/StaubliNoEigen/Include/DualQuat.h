@@ -6,18 +6,20 @@
 #include <iostream>
 #include "Quat.h"
 using namespace std;
+using namespace Eigen;
 
 class DualQuat
 {
 private:
-	Quat prim;
-	Quat dual;
+	Quaterniond prim;
+	Quaterniond dual;
 public:
 	DualQuat();
-	DualQuat(Quat prim, Quat dual);
+	DualQuat(Quaterniond prim, Quaterniond dual);
+	DualQuat(double w0, Vector3d v0, double wE, Vector3d vE);
 	DualQuat(double w0, double x0, double y0, double z0, double wE, double xE, double yE, double zE);
-	Quat getPrim();
-	Quat getDual();
+	Quaterniond getPrim();
+	Quaterniond getDual();
 	DualQuat operator+ (const DualQuat& dq2);
 	DualQuat operator- (const DualQuat& dq2);
 	DualQuat operator* (const DualQuat& q2); //Dualquaternion-Dualquaternion multiplication

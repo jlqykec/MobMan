@@ -33,6 +33,10 @@ private:
 
 	//Current position and orientation matrix
 	Eigen::Matrix4d T0e;
+
+	//Solutions from inverse kinematics
+	Eigen::MatrixXd solutions;
+
 public:
 	Staubli(); //Default constructor uses the real dimensions of the robot
 	Eigen::Matrix4d forwardKin(Eigen::VectorXd q);
