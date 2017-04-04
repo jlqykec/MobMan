@@ -2,6 +2,7 @@
 
 #define _USE_MATH_DEFINES // for the PI constant
 #include <math.h>
+#include "PadenKahan.h"
 
 using namespace Eigen;
 
@@ -123,7 +124,7 @@ Eigen::VectorXd Staubli::inverseKin(Eigen::Matrix4d T)
 	th1[1] = alpha1 - alpha2 + M_PI;
 
 	//Copy the solutions to the solution matrix
-	solutions.col(1) << th1[0], th1[0], th1[0], th1[0], th1[1], th1[1], th1[1], th1[1];
+	solutions.col(0) << th1[0], th1[0], th1[0], th1[0], th1[1], th1[1], th1[1], th1[1];
 	// **************************************************************************//
 
 	//*******Step 2: Find theta 2 and theta 3 using the position of joint 5******//
@@ -131,13 +132,48 @@ Eigen::VectorXd Staubli::inverseKin(Eigen::Matrix4d T)
 
 	//Rotation operators of theta 1
 	DualQuat q1[2];
-	//q1[0] = DualQuat(Quat(cos(th1[0])));
+	q1[0] = DualQuat::rotOperator(th1[0], this->d1, this->m1);
+	q1[1] = DualQuat::rotOperator(th1[1], this->d1, this->m1);
+
+	//Quaternion representation of axis d2
+	DualQuat dqL2 = DualQuat(Quat(0, this->d2), Quat(0, this->m2));
+
+	//New direction of d2 after rotating theta1
+	Vector3d z2_1[2];
+	//Using th1[0]
+	DualQuat dqL2_1;
+	dqL2_1 = q1[0] * dqL2*q1[0].conj();
+	z2_1[0] = dqL2_1.getPrim().getV();
+	//Using th1[1]
+	dqL2_1 = q1[1] * dqL2*q1[1].conj();
+	z2_1[1] = dqL2_1.getPrim().getV();
 	
+	double th2[2], th3[2];
+	Quat qr1;
+	Quat qr1c;
+	Vector3d p2_1, p3_1, p5_1;
+
+	for (int i = 0; i < 2; i++)
+	{
+		//p2, p3 and p5 must be rotated if they change when rotating about axis d1
+		//Create the rotation quaternion
+		qr1 = Quat::rotQuat(th1[0], this->d1);
+		qr1c = qr1.conj();
+		//Rotate p2, p3 and p5
+		p2_1 = Quat::rotPoint(qr1, qr1c, this->p2);
+		p3_1 = Quat::rotPoint(qr1, qr1c, this->p3);
+		p5_1 = Quat::rotPoint(qr1, qr1c, this->p5);
+
+		//Use subproblem 2
+		
+	}
+
+
 
 	//Copy the solutions to the solution matrix
 	solutions.col(1) << th1[0], th1[0], th1[0], th1[0], th1[1], th1[1], th1[1], th1[1];
 	// **************************************************************************//
-
+	
 
 
 

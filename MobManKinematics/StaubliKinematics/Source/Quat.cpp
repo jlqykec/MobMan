@@ -59,6 +59,13 @@ Quat Quat::rotQuat(double angle, Eigen::Vector3d axis)
 	return Quat(cos(angle * 0.5), sin(angle * 0.5)*axis);
 }
 
+Vector3d Quat::rotPoint(Quat rotq, Quat rotqc, Vector3d p)
+{
+	Quat qp = Quat(0,p);
+	Quat qp_rot = rotq*qp*rotqc;
+	return qp_rot.getV();
+}
+
 double Quat::getS()
 {
 	return this->w;
