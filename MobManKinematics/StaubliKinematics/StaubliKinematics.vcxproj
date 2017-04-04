@@ -83,11 +83,13 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>D:\eigen;$(SolutionDir)\StaubliKinematics\Source;$(SolutionDir)\StaubliKinematics\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\DualQuat.h" />
+    <ClInclude Include="Include\PadenKahan.h" />
     <ClInclude Include="Include\Staubli.h" />
     <ClInclude Include="Include\Quat.h" />
     <ClInclude Include="stdafx.h" />
@@ -155,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\DualQuat.cpp" />
+    <ClCompile Include="Source\PadenKahan.cpp" />
     <ClCompile Include="Source\Staubli.cpp" />
     <ClCompile Include="Source\Quat.cpp" />
     <ClCompile Include="StaubliKinematics.cpp" />

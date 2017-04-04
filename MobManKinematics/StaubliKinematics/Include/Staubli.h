@@ -39,8 +39,8 @@ private:
 
 public:
 	Staubli(); //Default constructor uses the real dimensions of the robot
-	Eigen::Matrix4d forwardKin(Eigen::VectorXd q);
-	Eigen::VectorXd inverseKin(Eigen::Matrix4d T);
+	Eigen::Matrix4d forwardKin(const Eigen::VectorXd& q);
+	Eigen::VectorXd inverseKin(const Eigen::Matrix4d& T);
 };
 
 

@@ -60,7 +60,7 @@ Staubli::Staubli()
 
 
 
-Eigen::Matrix4d Staubli::forwardKin(Eigen::VectorXd q)
+Eigen::Matrix4d Staubli::forwardKin(const Eigen::VectorXd& q)
 {
 	if (q.size() != 6) //The size of the 
 	{
@@ -99,7 +99,7 @@ Eigen::Matrix4d Staubli::forwardKin(Eigen::VectorXd q)
 	return this->T0e;
 }
 
-Eigen::VectorXd Staubli::inverseKin(Eigen::Matrix4d T)
+Eigen::VectorXd Staubli::inverseKin(const Eigen::Matrix4d& T)
 {
 	//Extract the desried position, approaching direction and normal direction
 	Vector3d Ped = T0e.col(3).head(3);
@@ -165,7 +165,16 @@ Eigen::VectorXd Staubli::inverseKin(Eigen::Matrix4d T)
 		p5_1 = Quat::rotPoint(qr1, qr1c, this->p5);
 
 		//Use subproblem 2
-		
+		int sol = PadenKahan::subproblem2pa(z2_1[i], p5_1, Pwd, p3_1, p2_1, th2, th3);
+
+		int index = 0;
+		if (sol == 1)
+		{
+			//Copy one solution
+			solutions.col(2).row(index) = th2[0];
+
+
+		}
 	}
 
 
