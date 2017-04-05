@@ -56,7 +56,7 @@ int main()
 		T0e = robot.forwardKin(q);
 	}
 	QueryPerformanceCounter(&end);
-	//Calculate the execution time in seconds
+	//Calculate the execution time in ms
 	interval = (double)(end.QuadPart - start.QuadPart) / freq.QuadPart * 1000;
 	cout << "Execution time: " << interval / n << "ms" << endl;
 	//Show the output of the forward kinematics
@@ -72,7 +72,7 @@ int main()
 		solutions = robot.inverseKin(T0e, solFlags);
 	}
 	QueryPerformanceCounter(&end);
-	//Calculate the execution time in seconds
+	//Calculate the execution time in ms
 	interval = (double)(end.QuadPart - start.QuadPart) / freq.QuadPart * 1000;
 	cout << "Execution time: " << interval/n << "ms" << endl;
 
