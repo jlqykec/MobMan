@@ -28,12 +28,12 @@ int main()
 
 	//Values of the generalized coordinates
 	double q1, q2, q3, q4, q5, q6;
-	q1 = 90.0 * M_PI / 180.0;
-	q2 = 45.0 * M_PI / 180.0;
-	q3 = -45.0 * M_PI / 180.0;
-	q4 = 0.0 * M_PI / 180.0;
-	q5 = 0.0 * M_PI / 180.0;
-	q6 = 0.0 * M_PI / 180.0;
+	q1 = -90.0 * M_PI / 180.0;
+	q2 = 30.0 * M_PI / 180.0;
+	q3 = -60.0 * M_PI / 180.0;
+	q4 = 45.0 * M_PI / 180.0;
+	q5 = 45.0 * M_PI / 180.0;
+	q6 = 45.0 * M_PI / 180.0;
 
 	//A vector to store the joint angles before sending them to the algorithm
 	VectorXd q(6);
@@ -43,10 +43,12 @@ int main()
 	Matrix4d T0e;
 
 	double acc = 0.0;
-	int n = 5000;
+	int n = 1000;
 
 	//For measuring the execution time
 	QueryPerformanceFrequency(&freq);
+
+	//-------------------FORWARD KINEMATICS---------------------//
 	QueryPerformanceCounter(&start);
 	for (int i = 0; i < n; i++)
 	{
@@ -59,9 +61,25 @@ int main()
 	cout << "Execution time: " << interval / n << "ms" << endl;
 	//Show the output of the forward kinematics
 	cout << T0e << endl;
+	//----------------------------------------------------------//
+	//-------------------INVERSE KINEMATICS---------------------//
+	MatrixXd solutions;
+	int solFlags[8];
+	QueryPerformanceCounter(&start);
+	for (int i = 0; i < n; i++)
+	{
+		//Calculate the inverse kinematics
+		solutions = robot.inverseKin(T0e, solFlags);
+	}
+	QueryPerformanceCounter(&end);
+	//Calculate the execution time in seconds
+	interval = (double)(end.QuadPart - start.QuadPart) / freq.QuadPart * 1000;
+	cout << "Execution time: " << interval/n << "ms" << endl;
 
-	//Calculate the inverse kinematics
-	robot.inverseKin(T0e);
+	//Show the output of the inverse kinematics
+	std::cout << "Inverse Kinematics Solutions: " << endl;
+	std::cout << solutions * 180 / M_PI << endl;
+	//----------------------------------------------------------//
 
 	system("pause");
 	return 0;

@@ -26,21 +26,27 @@ private:
 	//Dual-quaternion representation of each axis of the UR5
 	DualQuat dq1, dq2, dq3, dq4, dq5, dq6;
 
-	//Dual-quaternion representation of the axis that represent the tool
+	//Dual-quaternion representation of the needed axes for Plucker Coordinates
+	DualQuat dqL4;	
+	DualQuat dqL5;	
 	DualQuat dqL6;	//approach direction
 	DualQuat dqL7;	//orientation direction
 	DualQuat dqL8;	//auxiliar axis for inverse kinematics
+
 
 	//Current position and orientation matrix
 	Eigen::Matrix4d T0e;
 
 	//Solutions from inverse kinematics
 	Eigen::MatrixXd solutions;
+	//int solFlags[8];
 
 public:
 	Staubli(); //Default constructor uses the real dimensions of the robot
 	Eigen::Matrix4d forwardKin(const Eigen::VectorXd& q);
-	Eigen::VectorXd inverseKin(const Eigen::Matrix4d& T);
+	Eigen::MatrixXd inverseKin(const Eigen::Matrix4d& T, int* solFlags);
+protected:
+	Vector3d LinesIntersection(DualQuat dqL1, DualQuat dqL2);
 };
 
 
