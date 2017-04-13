@@ -21,7 +21,6 @@ int main()
 	LARGE_INTEGER freq;
 	LARGE_INTEGER start;
 	LARGE_INTEGER end;
-	double interval;
 
 	//Staubli Robot object
 	Staubli robot;
@@ -35,7 +34,14 @@ int main()
 	q5 = 45.0 * M_PI / 180.0;
 	q6 = 45.0 * M_PI / 180.0;
 
-	cout << "Desired joint angles:\n"
+	/*q1 = 90.0 * M_PI / 180.0;
+	q2 = 45.0 * M_PI / 180.0;
+	q3 = -45.0 * M_PI / 180.0;
+	q4 = 0.0 * M_PI / 180.0;
+	q5 = 0.0 * M_PI / 180.0;
+	q6 = 0.0 * M_PI / 180.0;*/
+
+	cout << "Desired joint angles: " << endl
 		<< "q1: " << q1 * 180 / M_PI << endl
 		<< "q2: " << q2 * 180 / M_PI << endl
 		<< "q3: " << q3 * 180 / M_PI << endl
@@ -47,42 +53,43 @@ int main()
 	VectorXd q(6);
 	q << q1, q2, q3, q4, q5, q6;
 
-	//A Matrix to store the Transformation matrix of the forward kinematics
-	Matrix4d T0e;
-
-	double acc = 0.0;
-	int n = 1000;
-
-	//For measuring the execution time
-	QueryPerformanceFrequency(&freq);
+	//Time calculation related variables
+	int n = 1000;	//Number of iterations to calculate forward and inverse kinematics
+	QueryPerformanceFrequency(&freq);	//For measuring the execution time
+	VectorXd times = Eigen::VectorXd::Zero(n);	//To store the times in each step
+	
 
 	//-------------------FORWARD KINEMATICS---------------------//
-	QueryPerformanceCounter(&start);
+	Matrix4d T0e; //A Matrix to store the Transformation matrix of the forward kinematics
 	for (int i = 0; i < n; i++)
 	{
-		//Calculate the forward kinematics
-		T0e = robot.forwardKin(q);
+		QueryPerformanceCounter(&start);
+		T0e = robot.forwardKin(q);		//Calculate the forward kinematics
+		QueryPerformanceCounter(&end);
+		times(i) = (double)(end.QuadPart - start.QuadPart) / freq.QuadPart * 1000000;
 	}
-	QueryPerformanceCounter(&end);
-	//Calculate the execution time in ms
-	interval = (double)(end.QuadPart - start.QuadPart) / freq.QuadPart * 1000;
-	cout << "Execution time: " << interval / n << "ms" << endl;
+	cout << "Mean time: " << times.mean() << "us" << endl;
+	cout << "Min time: " << times.minCoeff() << "us" << endl;
+	cout << "Max time: " << times.maxCoeff() << "us" << endl;
+
 	//Show the output of the forward kinematics
 	cout << T0e << endl;
 	//----------------------------------------------------------//
+
+
 	//-------------------INVERSE KINEMATICS---------------------//
 	MatrixXd solutions;
 	int solFlags[8];
-	QueryPerformanceCounter(&start);
 	for (int i = 0; i < n; i++)
 	{
-		//Calculate the inverse kinematics
-		solutions = robot.inverseKin(T0e, solFlags);
+		QueryPerformanceCounter(&start);
+		solutions = robot.inverseKin(T0e, solFlags);	//Calculate the inverse kinematics
+		QueryPerformanceCounter(&end);
+		times(i) = (double)(end.QuadPart - start.QuadPart) / freq.QuadPart * 1000000;
 	}
-	QueryPerformanceCounter(&end);
-	//Calculate the execution time in ms
-	interval = (double)(end.QuadPart - start.QuadPart) / freq.QuadPart * 1000;
-	cout << "Execution time: " << interval/n << "ms" << endl;
+	cout << "Mean time: " << times.mean() << "us" << endl;
+	cout << "Min time: " << times.minCoeff() << "us" << endl;
+	cout << "Max time: " << times.maxCoeff() << "us" << endl;
 
 	//Show the output of the inverse kinematics
 	std::cout << "Inverse Kinematics Solutions: " << endl;
