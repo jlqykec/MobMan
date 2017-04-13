@@ -35,6 +35,14 @@ int main()
 	q5 = 45.0 * M_PI / 180.0;
 	q6 = 45.0 * M_PI / 180.0;
 
+	cout << "Desired joint angles:\n"
+		<< "q1: " << q1 * 180 / M_PI << endl
+		<< "q2: " << q2 * 180 / M_PI << endl
+		<< "q3: " << q3 * 180 / M_PI << endl
+		<< "q4: " << q4 * 180 / M_PI << endl
+		<< "q5: " << q5 * 180 / M_PI << endl
+		<< "q6: " << q6 * 180 / M_PI << endl;
+
 	//A vector to store the joint angles before sending them to the algorithm
 	VectorXd q(6);
 	q << q1, q2, q3, q4, q5, q6;

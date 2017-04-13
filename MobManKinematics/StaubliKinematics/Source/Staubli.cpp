@@ -306,7 +306,7 @@ MatrixXd Staubli::inverseKin(const Eigen::Matrix4d& T, int* solFlags)
 	DualQuat q5;
 	DualQuat dqL6_12345, dqL7_12345, dqL8_12345;
 	Vector3d d6_12345, Paux1, Paux2;
-	double th6;	
+	Paux2 = Ped + 5.0 * Nd;
 	for (int i = 0; i < 8; i++)
 	{
 		if (solFlags[i] != 0)	//First check if the solution is valid
@@ -330,11 +330,8 @@ MatrixXd Staubli::inverseKin(const Eigen::Matrix4d& T, int* solFlags)
 			//Get the first auxiliar point
 			Paux1 = LinesIntersection(dqL7_12345, dqL8_12345);
 
-			//Use subproblem 1
-			th6 = PadenKahan::subproblem1(d6_12345, Paux1, Paux2, Ped);
-
-			//Copy the solution to the solution matrix
-			solutions(i, 5) = th6;
+			//Use subproblem 1 and copy the solution to the solution matrix
+			solutions(i, 5) = PadenKahan::subproblem1(d6_12345, Paux1, Paux2, Ped);
 		}
 	}
 	//---------------------------------------------------------------------------//
